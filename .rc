@@ -1,0 +1,46 @@
+set -o vi
+export PS1='\n[\u@\h:\w]\n\[\e[32m\]$ \[\e[0m\]'
+export HISTCONTROL=ignorespace:ignoredups  # no duplicate entries
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+history() {
+_bash_history_sync
+builtin history "$@"
+}
+_bash_history_sync() {
+builtin history -a
+HISTFILESIZE=$HISTFILESIZE
+builtin history -c
+builtin history -r
+}
+PROMPT_COMMAND=_bash_history_sync
+export PATH=~/.bin:$PATH
+export EDITOR=vim
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+set -o vi
+
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+     echo "Initialising new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     echo succeeded
+     chmod 600 "${SSH_ENV}"
+     . "${SSH_ENV}" > /dev/null
+     /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+
+if [ -f "${SSH_ENV}" ]; then
+     . "${SSH_ENV}" > /dev/null
+     #ps ${SSH_AGENT_PID} doesn't work under cywgin
+     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+         start_agent;
+     }
+else
+     start_agent;
+fi

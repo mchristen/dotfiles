@@ -1,0 +1,4 @@
+alias gs='git status'
+alias gd='git diff -C -p --color=auto'
+alias glp='git log -C -p --color=auto'
+alias update_aliases='. ~/.local_home/.aliases'

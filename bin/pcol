@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+print_these = ARGV
+while STDIN.gets
+  cols = $_.split
+  first = true
+  print_these.each do |c|
+    print " " unless first
+    first = false
+    print "#{cols[c.to_i-1]}"
+  end
+  puts "" unless STDIN.eof?
+end
