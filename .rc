@@ -24,7 +24,7 @@ set -o vi
 
 SSH_ENV="$HOME/.ssh/environment"
 
-function start_agent {
+start_agent() {
      echo "Initialising new SSH agent..."
      /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
      echo succeeded
@@ -44,3 +44,5 @@ if [ -f "${SSH_ENV}" ]; then
 else
      start_agent;
 fi
+
+. ~/.local_home/.aliases
