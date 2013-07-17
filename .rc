@@ -14,7 +14,7 @@ builtin history -c
 builtin history -r
 }
 PROMPT_COMMAND=_bash_history_sync
-export PATH=~/.bin:$PATH
+export PATH="$HOME/.local_home/bin:$PATH"
 export EDITOR=vim
 
 export LC_ALL=en_US.UTF-8
@@ -46,3 +46,6 @@ else
 fi
 
 . ~/.local_home/.aliases
+
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
