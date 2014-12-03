@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -x
+
+user="$1"
+shift
+screen="$1"
+
+cmd_opts=" -S /work/shared/.sockets/${user}-${screen} attach -t ${screen}"
+
+tmux $cmd_opts
