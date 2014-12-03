@@ -1,3 +1,6 @@
-[submodule "3party/.rbenv"]
-	path = 3party/.rbenv
+[submodule "3party/rbenv"]
+	path = 3party/rbenv
 	url = https://github.com/sstephenson/rbenv.git
+[submodule "3party/ruby-build"]
+	path = 3party/ruby-build
+	url = https://github.com/sstephenson/ruby-build.git
