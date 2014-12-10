@@ -1,0 +1,13 @@
+#!/bin/bash
+
+env=$1
+
+echo "Loading ${env}..."
+
+cd ~/work
+. ./env.sh
+cd $env
+if [ -e env.sh ]
+  then
+  . ./env.sh
+fi
