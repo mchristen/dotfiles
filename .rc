@@ -47,6 +47,6 @@ fi
 
 . ~/.local_home/.aliases
 
-export RBENV_ROOT="$HOME/.local_home/3party/rbenv"
-export PATH="$RBENV_ROOT/bin:/work/shared/bin:/work/shared/3party/bin:$PATH"
+export RBENV_ROOT="$HOME/.rbenv"
+export PATH="$RBENV_ROOT/bin:$PATH"
 eval "$(rbenv init -)"

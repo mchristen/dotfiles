@@ -1,4 +1,7 @@
 alias gs='git status'
 alias gd='git diff -C -p --color=auto'
 alias glp='git log -C -p --color=auto'
+alias gdc='git diff --cached'
 alias update_aliases='. ~/.local_home/.aliases'
+alias vim_swp_files=" find . -iname *.swp -print | sed 's/\.\/\(.*\)\/\.\(.*\)\.swp/\1\/\2/'"
+alias rails_ack="ack --ignore-dir=log --ignore-dir=tmp --ignore-dir=coverage --ignore-dir=test/proofs"
