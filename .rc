@@ -1,18 +1,32 @@
 set -o vi
+
+#load custom alias files
+. ~/.local_home/.aliases
+
 export PS1='\n[\u@\h:\w]\n\[\e[32m\]$ \[\e[0m\]'
 export HISTCONTROL=ignorespace:ignoredups  # no duplicate entries
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
+
+#Replace default history command(pass-through)
 history() {
 _bash_history_sync
 builtin history "$@"
 }
+
+#Keeps history in sync between shells
 _bash_history_sync() {
+
+#Append all new local history entries to the file
 builtin history -a
 HISTFILESIZE=$HISTFILESIZE
+#Clear the local history entries in shell
 builtin history -c
+#Replace the entire local history with the one in the file
 builtin history -r
 }
+
+#This keeps the history file up to date
 PROMPT_COMMAND=_bash_history_sync
 export PATH="$HOME/.local_home/bin:$PATH"
 export EDITOR=vim
@@ -20,7 +34,6 @@ export EDITOR=vim
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
-set -o vi
 
 SSH_ENV="$HOME/.ssh/environment"
 
@@ -33,11 +46,10 @@ start_agent() {
      /usr/bin/ssh-add;
 }
 
-# Source SSH settings, if applicable
-
+# Setup ssh-agent in case it isn't already(no GUI running)
 if [ -f "${SSH_ENV}" ]; then
      . "${SSH_ENV}" > /dev/null
-     #ps ${SSH_AGENT_PID} doesn't work under cywgin
+     # if ssh-agent isn't running then start it
      ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
          start_agent;
      }
@@ -45,7 +57,6 @@ else
      start_agent;
 fi
 
-. ~/.local_home/.aliases
 
 export RBENV_ROOT="$HOME/.rbenv"
 export PATH="$RBENV_ROOT/bin:$PATH"
