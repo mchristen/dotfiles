@@ -6,4 +6,4 @@ alias update_aliases='. ~/.local_home/.aliases'
 alias edit_aliases='vim ~/.local_home/.aliases'
 alias vim_swp_files=" find . -iname *.swp -print | sed 's/\.\/\(.*\)\/\.\(.*\)\.swp/\1\/\2/'"
 alias rails_ack="ack --ignore-dir=log --ignore-dir=tmp --ignore-dir=coverage --ignore-dir=test/proofs"
-alias py_ack="ack --ignore-dir=build"
+alias pygrep="ack --ignore-dir=build"
