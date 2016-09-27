@@ -8,7 +8,8 @@ if [ ! -f ~/.ssh/id_rsa.pub ]; then
 	ssh-keygen
 fi
 
-sudo apt-get install build-essential
+./prereqs.sh
+
 
 if [ ! -d ~/.rbenv ]; then
     git clone https://github.com/rbenv/rbenv.git ~/.rbenv
