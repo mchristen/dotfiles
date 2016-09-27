@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+if [ $# -ne 1 ]; then
+         echo 1>&2 Usage: $0 process_name_regex
+         exit 127
+fi
+
+for pid in $(ps -ef | grep "$1" | awk '{print $2}'); do
+    if [ -f /proc/$pid/smaps ]; then
+        echo "* Mem usage for PID $pid"
+        grep 'Name:' /proc/$pid/status
+        rss=$(awk 'BEGIN {i=0} /^Rss/ {i = i + $2} END {print i}' /proc/$pid/smaps)
+        pss=$(awk 'BEGIN {i=0} /^Pss/ {i = i + $2 + 0.5} END {print i}' /proc/$pid/smaps)
+        sc=$(awk 'BEGIN {i=0} /^Shared_Clean/ {i = i + $2} END {print i}' /proc/$pid/smaps)
+        sd=$(awk 'BEGIN {i=0} /^Shared_Dirty/ {i = i + $2} END {print i}' /proc/$pid/smaps)
+        pc=$(awk 'BEGIN {i=0} /^Private_Clean/ {i = i + $2} END {print i}' /proc/$pid/smaps)
+        pd=$(awk 'BEGIN {i=0} /^Private_Dirty/ {i = i + $2} END {print i}' /proc/$pid/smaps)
+        echo "-- Rss: $rss kB"
+        echo "-- Pss: $pss kB"
+        echo "Shared Clean $sc kB"
+        echo "Shared Dirty $sd kB"
+        echo "Private $(($pd + $pc)) kB"
+        echo
+    fi
+done
