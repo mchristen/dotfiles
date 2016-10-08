@@ -2,8 +2,11 @@ alias gs='git status'
 alias gd='git diff -C -p --color=auto'
 alias glp='git log -C -p --color=auto'
 alias gdc='git diff --cached'
-alias update_aliases='. ~/.local_home/.aliases'
-alias edit_aliases='vim ~/.local_home/.aliases'
+alias update_aliases='echo "Updating aliases..."; . ~/.local_home/.aliases'
+alias edit_aliases='vim ~/.local_home/.aliases && update_aliases'
 alias vim_swp_files=" find . -iname *.swp -print | sed 's/\.\/\(.*\)\/\.\(.*\)\.swp/\1\/\2/'"
 alias rails_ack="ack --ignore-dir=log --ignore-dir=tmp --ignore-dir=coverage --ignore-dir=test/proofs"
-alias pygrep="ack --ignore-dir=build"
+alias pygrep="ack --ignore-dir=build --type=python"
+alias jsgrep="ack --ignore-dir=build --ignore-dir=spec"
+alias pytags="ctags -R --exclude=build --exclude=dist --fields=+l --languages=python --python-kinds=-iv -f ./tags $(python -c "import os, sys; print(' '.join('{}'.format(d) for d in sys.path if os.path.isdir(d)))")"
+alias jstags='find . -type f -iregex ".*\.\(js\|jsx\|coffee\|es6\)$" -not -path "./node_modules/*" -exec jsctags {} -f \; > tags'
