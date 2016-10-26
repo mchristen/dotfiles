@@ -10,7 +10,7 @@ if [ ! -f ~/.ssh/id_rsa.pub ]; then
 	ssh-keygen
 fi
 
-exec $SOURCE_DIR/prereqs.sh
+$SOURCE_DIR/prereqs.sh
 
 
 if [ ! -d ~/.rbenv ]; then
