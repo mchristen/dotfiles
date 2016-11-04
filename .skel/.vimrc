@@ -46,3 +46,7 @@ command! -range=% FixWhitespace call <SID>FixWhitespace(<line1>,<line2>)
 set tags=tags
 
 set colorcolumn=80
+au BufRead,BufNewFile *.{es6,es6.js} set filetype=javascript tabstop=2 softtabstop=2 shiftwidth=2
+au BufRead,BufNewFile *.js set tabstop=2 softtabstop=2 shiftwidth=2
+au BufRead,BufNewFile *.jsx set tabstop=2 softtabstop=2 shiftwidth=2
+au BufRead,BufNewFile *.html set tabstop=2 softtabstop=2 shiftwidth=2
