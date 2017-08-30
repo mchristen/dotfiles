@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+col = ARGV[0].to_i
+sum = 0
+while STDIN.gets
+    cols = $_.split(" ")
+    sum += cols[col-1].to_i
+end
+print sum
