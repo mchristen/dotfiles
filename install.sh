@@ -20,6 +20,14 @@ if [ ! -d ~/.rbenv ]; then
     git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 fi
 
+if [ ! -d ~/.nodenv ]; then
+    git clone https://github.com/nodenv/nodenv.git ~/.nodenv
+    cd ~/.nodenv && src/configure && make -C src
+    cd ~/
+    git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build
+fi
+
+
 if [ ! -e ~/.local_home ]; then
 	ln -s $SOURCE_DIR ~/.local_home
 	echo ". ~/.local_home/.rc" >> ~/.bashrc
