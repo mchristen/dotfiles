@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ] || [ "$1" == "--help" ]; then
+    echo 1>&2 "Please specify at least the name of this project."
+    echo 1>&2 "Usage: bootstrap_dev_env <name> <directory relative to $BASE_DEV_DIR>"
+    echo 1>&2 "Example: bootstrap_dev_env test  # name: test, directory $BASE_DEV_DIR/test"
+    echo 1>&2 "Example: bootstrap_dev_env test test_src # name: test, directory $BASE_DEV_DIR/test_src"
+    echo -e 1>&2 "\nThe directory is optional, if you don't specify the name of the project will be resued as the subdirectory"
+    exit 1
+fi
+
+set -x
+NAME=$1
+SAFE_NAME=`echo "${NAME}" | sed -s 's/-/_/g'`
+
+if [ $# -eq 1 ]; then
+    DIR=$BASE_DEV_DIR/$NAME
+elif [ $# -gt 1 ]; then
+    DIR=$BASE_DEV_DIR/$2
+fi
+
+echo "Checking for existing environment at $DIR"
+if [ ! -d "$DIR" ]; then
+    echo "Creating development environment at $DIR"
+    mkdir -p $DIR
+fi
+
+UPPER_NAME=`echo "${SAFE_NAME}" | awk '{ print toupper($0) }'`
+
+VAR_NAME="${UPPER_NAME}_DEV_DIR"
+DEV_ENV_FILE=$HOME/.local_home/.dev_environments
+
+grep ${VAR_NAME} $DEV_ENV_FILE
+
+if [[ "0" -ne $? ]]; then
+    echo "export ${VAR_NAME}=\"\$BASE_DEV_DIR/${NAME}\"" >> $DEV_ENV_FILE
+fi
+
+if [ ! -f "$DIR/dev_setup.sh" ]; then
+    echo "#!/usr/bin/env bash" >> $DIR/dev_setup.sh
+fi
+
+if [ ! -f "$DIR/env.sh" ]; then
+    echo "#!/usr/bin/env bash" >> $DIR/env.sh
+fi
+
+PRE_WINDOW_CMD=". ${DIR}/env.sh"
+
+USING_PYTHON="no"
+read -p "Use python 2.7 (y/n)?" choice
+case "$choice" in
+    y|Y ) USING_PYTHON="yes"; echo "Using python 2.7";;
+    n|N ) echo "Not using python 2.7";;
+    * ) echo "invalid";;
+esac
+
+if [ "yes" == "$USING_PYTHON" ]; then
+    PRE_WINDOW_CMD="$PRE_WINDOW_CMD && source $VENV_DIR/$NAME/bin/activate"
+    cat << EOPF >> $DIR/dev_setup.sh
+
+if [ ! -d $VENV_DIR/$NAME ]; then
+    virtualenv $VENV_DIR/$NAME
+fi
+
+if [ ! -f $VENV_DIR/$NAME/bin/activate ]; then
+    echo "Cant find virtualenv dir"
+    exit -1
+fi
+
+. $VENV_DIR/$NAME/bin/activate
+cd $DIR
+find . -name \*.pyc -delete
+pip install -r requirements.txt && pip install -e .
+cd -
+EOPF
+
+fi
+
+if [ ! -f "$DIR/.tmuxinator.yml" ]; then
+    cat << EOF > $DIR/.tmuxinator.yml
+name: $NAME
+root: <%= ENV["$VAR_NAME"] %>
+pre: . <%= "#{ENV['$VAR_NAME']}/dev_setup.sh" %>
+pre_window: $PRE_WINDOW_CMD
+startup_window: bash1
+windows:
+  - bash1:
+  - bash2:
+  - bash3:
+EOF
+
+fi
+
+. ~/.local_home/.dev_environments
