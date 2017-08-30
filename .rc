@@ -57,6 +57,16 @@ else
      start_agent;
 fi
 
+export BASE_DEV_DIR="$HOME/work"
+export VENV_DIR="$BASE_DEV_DIR/venvs"
+DEV_ENV_FILE=$HOME/.local_home/.dev_environments
+
+if [ ! -f $DEV_ENV_FILE ]; then
+    echo "#!/usr/bin/env" > $DEV_ENV_FILE
+fi
+
+. ~/.local_home/.dev_environments
+source ~/.local_home/lib/completion_scripts/start_dev_env
 
 export RBENV_ROOT="$HOME/.rbenv"
 export PATH="$RBENV_ROOT/bin:$PATH"
