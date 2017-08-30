@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+_start_dev_env()
+{
+    local cur prev
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts=`find $BASE_DEV_DIR -maxdepth 1 -type d -exec test -e '{}'/.tmuxinator.yml \; -printf "%P "`
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    return 0
+}
+
+complete -o nospace -F _start_dev_env start_dev_env
