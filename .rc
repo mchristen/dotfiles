@@ -68,7 +68,13 @@ fi
 . ~/.local_home/.dev_environments
 source ~/.local_home/lib/completion_scripts/start_dev_env
 
+export NODENV_ROOT="$HOME/.nodenv"
 export RBENV_ROOT="$HOME/.rbenv"
-export PATH="$RBENV_ROOT/bin:$PATH"
+export PATH="$RBENV_ROOT/bin:$NODENV_ROOT/bin:$PATH"
 export PYTHONSTARTUP=~/.pystartup
 eval "$(rbenv init -)"
+eval "$(nodenv init -)"
+
+export GOROOT="/usr/lib/go"
+export GOPATH="${HOME}/.go:${GOROOT}"
+export PATH="${PATH}:${HOME}/.go/bin:${GOROOT}/bin"
