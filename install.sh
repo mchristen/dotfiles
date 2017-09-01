@@ -27,6 +27,10 @@ if [ ! -d ~/.nodenv ]; then
     git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build
 fi
 
+if [ ! -d ~/.pyenv ]; then
+    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+fi
+
 
 if [ ! -e ~/.local_home ]; then
 	ln -s $SOURCE_DIR ~/.local_home
