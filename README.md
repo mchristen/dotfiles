@@ -25,6 +25,8 @@ cd dotfiles
 ./install.sh
 ```
 
+The install.sh script might take some time to complete, but it also might ask you some questions.
+
 After the install your prompt should change to something like:
 ```
 
