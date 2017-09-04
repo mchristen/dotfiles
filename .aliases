@@ -2,6 +2,7 @@ alias gs='git status'
 alias gd='git diff -C -p --color=auto'
 alias glp='git log -C -p --color=auto'
 alias gdc='git diff --cached'
+alias sde='start_dev_env'
 alias update_aliases='echo "Updating aliases..."; . ~/.local_home/.aliases'
 alias edit_aliases='vim ~/.local_home/.aliases && update_aliases'
 alias vim_swp_files=" find . -iname *.swp -print | sed 's/\.\/\(.*\)\/\.\(.*\)\.swp/\1\/\2/'"
@@ -9,8 +10,7 @@ alias rails_ack="ack --ignore-dir=log --ignore-dir=tmp --ignore-dir=coverage --i
 alias pygrep="ack --ignore-dir=build --ignore-dir=.eggs --ignore-dir=.tox --type=python"
 alias jsgrep="ack --ignore-dir=build --ignore-dir=spec --ignore-dir=dist"
 alias gogrep="ack --ignore-dir=vendor --ignore-dir=.gopath"
-alias start_engine_dev="cd $ENGINE_DEV_DIR; tmuxinator start engine"
-alias start_stacker_dev="cd $STACKER_DEV_DIR; tmuxinator start stacker"
 alias pytags="ctags -R --exclude=build --exclude=dist --fields=+l --languages=python --python-kinds=-iv -f ./tags $(python -c "import os, sys; print(' '.join('{}'.format(d) for d in sys.path if os.path.isdir(d)))")"
-alias reset_resly="rm -rf /home/matt/.resly; mkdir -p /home/matt/.resly; cp /home/matt/config.json /home/matt/.resly/"
 alias jstags='find . -type f -iregex ".*\.\(js\|jsx\|coffee\|es6\)$" -not -path "./node_modules/*" -exec jsctags {} -f \; > tags'
+alias grc="git rebase --continue"
+
