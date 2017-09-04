@@ -79,3 +79,5 @@ if [ ! -e ~/.local_home ]; then
 	ln -s $SOURCE_DIR ~/.local_home
 	echo ". ~/.local_home/.rc" >> ~/.bashrc
 fi
+
+gem install tmuxinator
