@@ -92,3 +92,5 @@ EOF
 fi
 
 . ~/.local_home/.dev_environments
+
+start_dev_env $NAME
