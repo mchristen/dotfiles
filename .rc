@@ -1,7 +1,5 @@
 set -o vi
 
-#load custom alias files
-. ~/.local_home/.aliases
 
 export PS1='\n[\u@\h:\w]\n\[\e[32m\]$ \[\e[0m\]'
 export HISTCONTROL=ignorespace:ignoredups  # no duplicate entries
@@ -68,6 +66,7 @@ fi
 . ~/.local_home/.dev_environments
 source ~/.local_home/lib/completion_scripts/start_dev_env
 
+
 export NODENV_ROOT="$HOME/.nodenv"
 export RBENV_ROOT="$HOME/.rbenv"
 export PYENV_ROOT="$HOME/.pyenv"
@@ -80,3 +79,8 @@ eval "$(pyenv init -)"
 export GOROOT="/usr/lib/go"
 export GOPATH="${HOME}/.go:${GOROOT}"
 export PATH="${PATH}:${HOME}/.go/bin:${GOROOT}/bin"
+
+
+#load custom alias files
+. ~/.local_home/.aliases
+source ~/.local_home/lib/alias_completion
