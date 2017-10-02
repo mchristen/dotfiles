@@ -5,6 +5,7 @@ sudo apt-get install \
     bison \
     build-essential \
     gcc-6 \
+    inotify-tools \
     libbz2-dev \
     libffi-dev \
     libgdbm3 \
