@@ -8,24 +8,25 @@ export HISTFILESIZE=100000               # big big history
 
 #Replace default history command(pass-through)
 history() {
-_bash_history_sync
-builtin history "$@"
+    _bash_history_sync
+    builtin history "$@"
 }
 
 #Keeps history in sync between shells
-_bash_history_sync() {
-
-#Append all new local history entries to the file
-builtin history -a
-HISTFILESIZE=$HISTFILESIZE
-#Clear the local history entries in shell
-builtin history -c
-#Replace the entire local history with the one in the file
-builtin history -r
+function _bash_history_sync() {
+    #Append all new local history entries to the file
+    builtin history -a
+    HISTFILESIZE=$HISTFILESIZE
+    #Clear the local history entries in shell
+    builtin history -c
+    #Replace the entire local history with the one in the file
+    builtin history -r
 }
 
+shopt -s histappend
+
 #This keeps the history file up to date
-PROMPT_COMMAND=_bash_history_sync
+export PROMPT_COMMAND=_bash_history_sync
 export PATH="$HOME/.local_home/bin:$PATH"
 export EDITOR=vim
 
