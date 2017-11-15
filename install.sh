@@ -29,7 +29,11 @@ if [ ! -d ~/.pyenv ]; then
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 fi
 
-. ~/.local_home/.rc
+if [ ! -e ~/.local_home ]; then
+	ln -s $SOURCE_DIR ~/.local_home
+	. ~/.local_home/.rc
+	echo ". ~/.local_home/.rc" >> ~/.bashrc
+fi
 
 RUBY_VERSION="2.3.4"
 read -p "Which version of ruby do you want to use account wide?($RUBY_VERSION)" choice
