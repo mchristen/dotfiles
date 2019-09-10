@@ -1,20 +1,7 @@
 #!/bin/bash
 
-sudo apt-get install \
-    autoconf \
-    bison \
-    build-essential \
-    gcc-6 \
-    inotify-tools \
-    libbz2-dev \
-    libffi-dev \
-    libgdbm3 \
-    libgdbm-dev \
-    libncurses5-dev \
-    libreadline6-dev \
-    libsqlite3-dev \
-    libssl-dev \
-    libyaml-dev \
-    tmux \
-    vim \
-    zlib1g-dev \
+sudo apt-get install tmux vim open-vm-tools apt-transport-https ca-certificates curl gnupg2 software-properties-common ruby
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
