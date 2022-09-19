@@ -1,7 +1,11 @@
+#!/usr/bin/env bash
+
 set -o vi
 
+RED="\[\033[0;31m\]"
+NO_COLOR="\[\e[0m\]"
 
-export PS1='\n[\u@\h:\w]\n\[\e[32m\]$ \[\e[0m\]'
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 export HISTCONTROL=ignorespace:ignoredups  # no duplicate entries
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
@@ -12,6 +16,19 @@ history() {
     builtin history "$@"
 }
 
+function virtualenv_info(){
+    # Get Virtual Env
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Strip out the path and just leave the env name
+        venv="${VIRTUAL_ENV##*/}"
+    else
+        # In case you don't have one activated
+        venv=''
+    fi
+    [[ -n "$venv" ]] && echo "($venv) "
+}
+
+
 #Keeps history in sync between shells
 function _bash_history_sync() {
     #Append all new local history entries to the file
@@ -21,6 +38,14 @@ function _bash_history_sync() {
     builtin history -c
     #Replace the entire local history with the one in the file
     builtin history -r
+    if [ "$AWS_VAULT" ]; then
+        PROMPT_VAULT="[AWS: ${RED}${AWS_VAULT}${NO_COLOR}]\n"
+    else
+        PROMPT_VAULT=""
+    fi
+    # Set the bash prompt variable.
+    VENV="\n$(virtualenv_info)";
+    PS1="${VENV}\n${PROMPT_VAULT}[\u@\h:\w]\n\[\e[32m\]\$ \[\e[0m\]"
 }
 
 shopt -s histappend
@@ -72,6 +97,8 @@ export PYTHONSTARTUP=~/.pystartup
 
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
+
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
 
 #load custom alias files
 . ~/.local_home/.aliases
