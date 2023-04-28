@@ -3,6 +3,7 @@
 set -o vi
 
 RED="\[\033[0;31m\]"
+GREEN="\[\e[32m\]"
 NO_COLOR="\[\e[0m\]"
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -28,6 +29,7 @@ function virtualenv_info(){
     [[ -n "$venv" ]] && echo "($venv) "
 }
 
+PROMPT="[\u@\h:\w]\n${GREEN}\$ ${NO_COLOR}"
 
 #Keeps history in sync between shells
 function _bash_history_sync() {
@@ -38,15 +40,16 @@ function _bash_history_sync() {
     builtin history -c
     #Replace the entire local history with the one in the file
     builtin history -r
+    # Set the bash prompt variable.
+    VENV="\n$(virtualenv_info)"
     if [ "$AWS_VAULT" ]; then
         PROMPT_VAULT="[AWS: ${RED}${AWS_VAULT}${NO_COLOR}]\n"
     else
         PROMPT_VAULT=""
     fi
-    # Set the bash prompt variable.
-    VENV="\n$(virtualenv_info)";
-    PS1="${VENV}\n${PROMPT_VAULT}[\u@\h:\w]\n\[\e[32m\]\$ \[\e[0m\]"
+    PS1="${VENV}\n${PROMPT_VAULT}[\u@\h:\w]\n${GREEN}\$ ${NO_COLOR}"
 }
+
 
 shopt -s histappend
 
@@ -82,7 +85,6 @@ else
 fi
 
 export BASE_DEV_DIR="$HOME/work"
-export VENV_DIR="$BASE_DEV_DIR/venvs"
 DEV_ENV_FILE=$HOME/.local_home/.dev_environments
 
 if [ ! -f $DEV_ENV_FILE ]; then
@@ -103,3 +105,13 @@ source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
 #load custom alias files
 . ~/.local_home/.aliases
 source ~/.local_home/lib/alias_completion
+
+source /home/matt/.local/share/bash_completion.d/deno.bash
+
+if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
+    unset "${!DIRENV_@}"  # unset env vars starting with DIRENV_
+fi
+
+eval "$(direnv hook bash)"
+
+source ~/work/cinder/infra/scripts/bash_completion.d/cndrctl

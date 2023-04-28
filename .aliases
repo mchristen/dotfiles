@@ -18,4 +18,3 @@ alias json_logs="jq  -R 'fromjson? // '"
 alias tmux_session_name="tmux display-message -p '#{session_name}'"
 alias tmux_client_tty="tmux display-message -p '#{client_tty}'"
 alias detach_other_clients='TMUX_NAME=$(tmux_session_name);TMUX_TTY=$(tmux_client_tty); echo "Removing all clients except $TMUX_TTY on session $TMUX_NAME"; tmux list-clients | grep -v $TMUX_TTY | grep $TMUX_NAME | pcol 1 | tr -d ':' | xargs -r -n 1 tmux detach-client -t'
-alias ussh='ssh -J internal-access.us-east-1.resly.tech:4226'
