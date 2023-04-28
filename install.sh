@@ -2,17 +2,17 @@
 
 SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd ~/
+cd ~/ || exit
 
-if [ ! -f ~/.ssh/id_rsa.pub ]; then
-	ssh-keygen
+if [ ! -f ~/.ssh/id_ed25519.pub ]; then
+	ssh-keygen -t ed25519
 fi
 
-$SOURCE_DIR/prereqs.sh
+"$SOURCE_DIR/prereqs.sh"
 
 
 if [ ! -d ~/.asdf ]; then
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.2
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.3
 fi
 
 if [ ! -e ~/.local_home ]; then
@@ -21,26 +21,10 @@ if [ ! -e ~/.local_home ]; then
 	echo ". ~/.local_home/.rc" >> ~/.bashrc
 fi
 
-asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
-asdf plugin-add python
-asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
-asdf plugin-add deno https://github.com/asdf-community/asdf-deno.git
+ASDF_PLUGINS=(awscli aws-vault direnv dotnet-core golang gradle helm java jq kubectl maven minikube nodejs poetry pulumi python ruby skaffold yarn yq)
 
-asdf install nodejs latest
-asdf install ruby latest
-asdf install python latest
-asdf install golang latest
-asdf install deno latest
-
-if [ ! -e ~/.tool-versions ]; then
-	echo "direnv system" >> ~/.tool-versions
-fi
+for plugin in "${ASDF_PLUGINS[@]}"; do
+	asdf plugin add "$plugin"
+done
 
 mkdir -p .local/share/bash_completion.d
-
-if ! grep deno.bash ~/.bashrc ; then
-	asdf shell deno latest
-	deno completions bash > ~/.local/share/bash_completion.d/deno.bash
-	echo "source $HOME/.local/share/bash_completion.d/deno.bash" >> ~/.bashrc
-fi
